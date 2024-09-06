@@ -13,21 +13,26 @@
                 <div>Category - {{ event.category }}</div>
                 <p>{{ event.description }}</p>
                 <h4>Sponsorship Tiers</h4>
-                <div class="row">
-                    {% if not user.account.is_sponsor %}
-                        <div>Please Log in with sponsor account to sponsor events</div>
-                    {% endif %}
-                    {% for tier in event.sponsorship_tier.all  %}
-                        <div class="col">
-                            <h4>{{ tier.name }}</h4>
-                            <div>{{ tier.price }}</div>
-                            <p>{{ tier.benefits }}</p>
-                            {% if user.account.is_sponsor %}
-                                <a href="#" class="btn btn-dark">Sponsor</a>
-                            {% endif %}
-                        </div>
-                    {% endfor %}
-                </div>
+                {% if event.sponsorship_tier.all %}
+                    <div class="row">
+                        {% if not user.account.is_sponsor %}
+                            <div>Please Log in with sponsor account to sponsor events</div>
+                        {% endif %}
+                        {% for tier in event.sponsorship_tier.all  %}
+                            <div class="col">
+                                <h5>{{ tier.name }}</h5>
+                                <div>{{ tier.price }}</div>
+                                <p>{{ tier.benefits }}</p>
+                                {% if user.account.is_sponsor %}
+                                    <a href="#" class="btn btn-dark">Sponsor</a>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div>Wait for the organizer to publish the sponsorship tiers</div>
+                {% endif %}
+
             </div>
         </div>
     </div>
