@@ -19,7 +19,7 @@ def register_user(request):
             form.save()
             user = authenticate(request, username=username, password=password)
             login(request, user)
-            return redirect("index")
+            return redirect("events")
     else:
         form = RegistrationForm()
     return render(request, "accounts/signup.html", {"form": form})
@@ -34,10 +34,22 @@ def login_user(request):
             login(request, user)
             return redirect("index")
         else:
-            messages.success(request, "Error Logging in, Please try again")
+            messages.error(request, "Error Logging in, Please try again")
             return redirect("login")
     else:
-        return render(request, "accounts/login.html")
+        return render(request, "registration/login.html")
+
+
+def handle_login(request):
+    if request.user.is_authenticated:
+        if request.user.account.is_sponsor:
+            # redirect sponsor page
+            return redirect("events")
+        if request.user.account.is_organizer:
+            # redirect organizer page
+            return redirect("events")
+    else:
+        return redirect("login")
 
 
 def logout_user(request):

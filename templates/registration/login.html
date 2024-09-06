@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+    
+    {% if messages %}
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+    {% endif %}
+
+    {% if form.errors %}
+        <div class="errors">
+            <p>Incorrect username or password. Please try again.</p>
+        </div>
+    {% endif %}
+
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="card shadow">
+                    <div class="card-title text-center border-bottom">
+                        <h2 class="p-3">Login</h2>
+                    </div>
+                    <div class="card-body">
+                        <form action="{% url 'login' %}" method="post">
+                            {% csrf_token %}
+                            <div class="mb-4">
+                                <label for="username" class="form-label">Username</label>
+                                <input type="text" name="username" class="form-control" id="username" />
+                            </div>
+                            <div class="mb-4">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" name="password" class="form-control" id="password" />
+                            </div>
+                            {% comment %} <div class="mb-4">
+                                <input type="checkbox" class="form-check-input" id="remember" />
+                                <label for="remember" class="form-label">Remember Me</label>
+                            </div> {% endcomment %}
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-dark">Login</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

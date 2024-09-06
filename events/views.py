@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic.list import ListView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from events.models import Event, SponsorshipTier
 from events.forms import EventForm, TierForm
 
@@ -18,7 +20,7 @@ class EventsList(ListView):
 
 
 # View All Events for organizer
-class EventsListOrganizer(ListView):
+class EventsListOrganizer(LoginRequiredMixin, ListView):
     model = Event
     template_name = "events/events_table.html"
     context_object_name = "events"
@@ -30,6 +32,7 @@ class EventsListOrganizer(ListView):
 
 
 # Create Event
+@login_required
 def CreateEvent(request):
     if request.method == "POST":
         form = EventForm(request.POST)
@@ -43,8 +46,11 @@ def CreateEvent(request):
 
 
 # Edit Event
+@login_required
 def EditEvent(request, pk):
     event = Event.objects.prefetch_related("sponsorship_tier").get(id=pk)
+    if event.organizer != request.user.account:
+        return render(request, "events/access_denied.html")
     if request.method == "POST":
         form = EventForm(request.POST, instance=event)
         if form.is_valid():
@@ -55,7 +61,11 @@ def EditEvent(request, pk):
 
 
 # Add Sponsorship Tier to Event
+@login_required
 def AddSponsorshipTier(request, pk):
+    event = Event.objects.get(id=pk)
+    if event.organizer != request.user.account:
+        return render(request, "events/access_denied.html")
     if request.method == "POST":
         form = TierForm(request.POST)
         if form.is_valid():
@@ -67,8 +77,11 @@ def AddSponsorshipTier(request, pk):
 
 
 # Edit Sponsorship Tier of an Event
+@login_required
 def EditSponsorShipTier(request, pk, tier_pk):
     tier = SponsorshipTier.objects.get(id=tier_pk)
+    if tier.event.organizer != request.user.account:
+        return render(request, "events/access_denied.html")
     if request.method == "POST":
         print("got it")
         form = TierForm(request.POST, instance=tier)
