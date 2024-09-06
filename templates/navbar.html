@@ -6,9 +6,9 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
-          <a class="nav-link" href="#">Features</a>
-          <a class="nav-link" href="#">Pricing</a>
+          <a class="nav-link {% if request.path == '/' %}active{% endif %}" aria-current="page" href="#">Home</a>
+          <a class="nav-link {% if request.path == '/events/' %}active{% endif %}" href="{% url 'events' %}">Events</a>
+          <a class="nav-link {% if request.path == '/events/manage_events/' %}active{% endif %}" href="{% url 'manage_events' %}">Manage Your Events</a>
           <a class="nav-link disabled" aria-disabled="true">Disabled</a>
         </div>
       </div>

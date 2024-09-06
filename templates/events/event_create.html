@@ -1,9 +1,13 @@
- {% if user.account.is_organizer %}
-    <form action="" method="post">
-        {% csrf_token %}
-        {{ form.as_div }}
-        <button type="submit">Submit</button>
-    </form>
+{% extends "base.html" %}
+
+{% block content %}
+{% if user.account.is_organizer %}
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form.as_div }}
+    <button type="submit">Submit</button>
+</form>
 {% else %}
-    <h1>Please Login</h1>
+<h1>Please Login</h1>
 {% endif %}
+{% endblock content %}

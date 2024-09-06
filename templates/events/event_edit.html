@@ -1,3 +1,6 @@
+{% extends "base.html" %}
+
+{% block content %}
 <form action="" method="post">
     {% csrf_token %}
     {{ form.as_div }}
@@ -15,3 +18,4 @@
 <div>
     <a href="{% url 'add_tier' pk=event.id %}">Add Sponsorship Tier</a>
 </div>
+{% endblock content %}
