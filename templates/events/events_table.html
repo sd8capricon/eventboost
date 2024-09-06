@@ -1,0 +1,9 @@
+<div>
+    <ul>
+        {% for event in events %}
+            <li><a href="{% url 'edit_event' pk=event.id %}">{{ event.title }} - {{ event.status }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
+
+<a href='{% url "create_event" %}'>Add a Event</a>

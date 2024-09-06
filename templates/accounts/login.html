@@ -1,0 +1,16 @@
+<h1>Login Event Organizer</h1>
+
+{% if messages %}
+    {% for message in messages %}
+        {{ message }}
+    {% endfor %}
+{% endif %}
+
+<form action="" method="post">
+    {% csrf_token %}
+    <label for="username">username</label>
+    <input type="text" name="username" id="username">
+    <label for="password">password</label>
+    <input type="text" name="password" id="password">
+    <button type="submit">Submit</button>
+</form>

@@ -1,0 +1,17 @@
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form.as_div }}
+    <button type="submit">Edit</button>
+</form>
+{% for tier in event.sponsorship_tier.all  %}
+    <ul>
+       <li>
+            {{ tier.name }} - {{ tier.price }}
+            <p>{{ tier.benefits }}</p>
+            <a href="{% url 'edit_tier' pk=event.id tier_pk=tier.id %}">Edit</a>
+        </li>
+    </ul>
+{% endfor %}
+<div>
+    <a href="{% url 'add_tier' pk=event.id %}">Add Sponsorship Tier</a>
+</div>

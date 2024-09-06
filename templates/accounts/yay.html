@@ -1,0 +1,7 @@
+<h1>Hehe</h1>
+{% if user.is_authenticated %}
+    <div>
+        {{ user.account.description }}
+    </div>
+{% endif %}
+<a href="{% url 'logout' %}">Logout</a>
