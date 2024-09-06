@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-lg-5 order-2 order-lg-1">
+                <img class="img-fluid w-100" src="https://via.placeholder.com/400x300" alt="Event Image">
+                <h4>Download Event Brochure</h4>
+                <div>Download - <a href="#">Link</a></div>
+            </div>
+            <div class="col-lg-7 order-1 order-lg-2">
+                <h3>{{ event.title }}</h3>
+                <div>Category - {{ event.category }}</div>
+                <p>{{ event.description }}</p>
+                <h4>Sponsorship Tiers</h4>
+                <div class="row">
+                    {% if not user.is_authenticated %}
+                        <div>Please Log in with sponsor account to sponsor events</div>
+                    {% endif %}
+                    {% for tier in event.sponsorship_tier.all  %}
+                        <div class="col">
+                            <h4>{{ tier.name }}</h4>
+                            <div>{{ tier.price }}</div>
+                            <p>{{ tier.benefits }}</p>
+                            {% if user.account.is_sponsor %}
+                                <a href="#" class="btn btn-dark">Sponsor</a>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

@@ -1,16 +1,24 @@
 from django.urls import path
-from django.contrib.auth.decorators import login_required
-from events import views
+from events.views import (
+    EventsList,
+    EventDetailView,
+    CreateEvent,
+    EventsListOrganizer,
+    EditEvent,
+    AddSponsorshipTier,
+    EditSponsorShipTier,
+)
 
 urlpatterns = [
-    path("", views.EventsList.as_view(), name="events"),
-    path("manage_events/", views.EventsListOrganizer.as_view(), name="manage_events"),
-    path("create_event/", view=views.CreateEvent, name="create_event"),
-    path("manage_events/<int:pk>/", views.EditEvent, name="edit_event"),
-    path("manage_events/<int:pk>/add_tier", views.AddSponsorshipTier, name="add_tier"),
+    path("", EventsList.as_view(), name="events"),
+    path("<int:pk>/", EventDetailView.as_view(), name="event"),
+    path("create_event/", CreateEvent, name="create_event"),
+    path("manage_events/", EventsListOrganizer.as_view(), name="manage_events"),
+    path("manage_events/<int:pk>/", EditEvent, name="edit_event"),
+    path("manage_events/<int:pk>/add_tier", AddSponsorshipTier, name="add_tier"),
     path(
         "manage_events/<int:pk>/edit_tier/<int:tier_pk>",
-        views.EditSponsorShipTier,
+        EditSponsorShipTier,
         name="edit_tier",
     ),
 ]

@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from events.models import Event, SponsorshipTier
@@ -11,7 +12,7 @@ from events.forms import EventForm, TierForm
 # All Open Events
 class EventsList(ListView):
     model = Event
-    template_name = "events/all_events.html"
+    template_name = "events/events_all.html"
     context_object_name = "events"
 
     def get_queryset(self):
@@ -29,6 +30,13 @@ class EventsListOrganizer(LoginRequiredMixin, ListView):
         organizer = self.request.user.account
         events = super().get_queryset().filter(organizer=organizer)
         return events
+
+
+# View Single Event in detail
+class EventDetailView(DetailView):
+    model = Event
+    template_name = "events/event_detail.html"
+    context_object_name = "event"
 
 
 # Create Event
