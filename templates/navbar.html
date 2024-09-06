@@ -8,7 +8,9 @@
         <div class="navbar-nav">
           <a class="nav-link {% if request.path == '/' %}active{% endif %}" aria-current="page" href="#">Home</a>
           <a class="nav-link {% if request.path == '/events/' %}active{% endif %}" href="{% url 'events' %}">Events</a>
-          <a class="nav-link {% if request.path == '/events/manage_events/' %}active{% endif %}" href="{% url 'manage_events' %}">Manage Your Events</a>
+          {% if user.account.is_organizer %}
+            <a class="nav-link {% if request.path == '/events/manage_events/' %}active{% endif %}" href="{% url 'manage_events' %}">Manage Your Events</a>
+          {% endif %}
           <a class="nav-link disabled" aria-disabled="true">Disabled</a>
         </div>
       </div>
