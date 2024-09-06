@@ -1,7 +1,11 @@
-<h1>Hehe</h1>
-{% if user.is_authenticated %}
-    <div>
-        {{ user.account.description }}
-    </div>
-{% endif %}
-<a href="{% url 'logout' %}">Logout</a>
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Hehe</h1>
+    {% if user.is_authenticated %}
+        <div>
+            {{ user.account.description }}
+        </div>
+    {% endif %}
+    <a href="{% url 'logout' %}">Logout</a>
+{% endblock content %}
