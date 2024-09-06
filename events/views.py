@@ -39,7 +39,7 @@ def CreateEvent(request):
         # return redirect("manage_events")
     else:
         form = EventForm()
-    return render(request, "events/create.html", {"form": form})
+    return render(request, "events/event_create.html", {"form": form})
 
 
 # Edit Event
@@ -51,7 +51,7 @@ def EditEvent(request, pk):
             form.save()
     else:
         form = EventForm(instance=event)
-    return render(request, "events/edit_event.html", {"form": form, "event": event})
+    return render(request, "events/event_edit.html", {"form": form, "event": event})
 
 
 # Add Sponsorship Tier to Event
@@ -63,7 +63,7 @@ def AddSponsorshipTier(request, pk):
             return redirect("edit_event", pk=pk)
     else:
         form = TierForm()
-    return render(request, "events/add_tier.html", {"form": form})
+    return render(request, "events/tier_add.html", {"form": form})
 
 
 # Edit Sponsorship Tier of an Event
@@ -77,4 +77,4 @@ def EditSponsorShipTier(request, pk, tier_pk):
         return redirect("edit_event", pk=pk)
     else:
         form = TierForm(instance=tier)
-    return render(request, "events/edit_tier.html", {"form": form, "tier": tier})
+    return render(request, "events/tier_edit.html", {"form": form, "tier": tier})

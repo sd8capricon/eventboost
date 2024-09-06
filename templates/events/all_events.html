@@ -1,5 +1,9 @@
-{% for event in events  %}
-    <div>
-        {{ event.title }} - {{ event.status }}
-    </div>
-{% endfor %}
+{% extends "base.html" %}
+
+{% block content %}
+    {% for event in events  %}
+        <div>
+            {{ event.title }} - {{ event.status }}
+        </div>
+    {% endfor %}
+{% endblock %}
