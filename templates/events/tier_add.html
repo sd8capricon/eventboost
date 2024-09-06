@@ -5,7 +5,18 @@
 
 <form action="" method="post">
     {% csrf_token %}
-    {{ form.as_div }}
-    <button type="submit">Submit</button>
+    {% for field in form %}
+        <div class="mb-4">
+            <label for={{ field.name }} class="form-label">{{ field.label }}</label>
+            {{ field }}
+            {% if field.help_text %}
+                <small class="form-text text-muted">{{ field.help_text }}</small>
+            {% endif %}
+            {% for error in field.errors %}
+                <div class="alert alert-danger">{{ error }}</div>
+            {% endfor %}
+        </div>
+    {% endfor %} 
+    <button class="btn btn-dark" type="submit">Submit</button>
 </form>
 {% endblock content %}

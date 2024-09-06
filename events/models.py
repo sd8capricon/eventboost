@@ -6,6 +6,17 @@ from accounts.models import Account
 
 class Event(models.Model):
     CATEGORY_CHOICES = (
+        ("conference", "conference"),
+        ("workshop", "workshop"),
+        ("webinar", "webinar"),
+        ("networking", "networking"),
+        ("hackathon", "hackathon"),
+        ("sports", "sports"),
+        ("music", "music"),
+        ("art", "art"),
+    )
+
+    STATUS_CHOICES = (
         # (value, display)
         ("open", "open"),
         ("closed", "close"),
@@ -18,9 +29,11 @@ class Event(models.Model):
     end_date = models.DateField()
     sponsorship_deadline = models.DateField()
     description = models.TextField()
-    category = models.CharField(max_length=100)  # Sports, Hackathon
+    category = models.CharField(
+        max_length=100, choices=CATEGORY_CHOICES
+    )  # Sports, Hackathon
     # Open, Closed, Cancelled
-    status = models.CharField(max_length=100, choices=CATEGORY_CHOICES)
+    status = models.CharField(max_length=100, choices=STATUS_CHOICES)
     organizer = models.ForeignKey(
         Account,
         on_delete=models.CASCADE,

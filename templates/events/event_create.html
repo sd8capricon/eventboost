@@ -1,13 +1,24 @@
 {% extends "base.html" %}
 
 {% block content %}
-{% if user.account.is_organizer %}
-<form action="" method="post">
-    {% csrf_token %}
-    {{ form.as_div }}
-    <button type="submit">Submit</button>
-</form>
-{% else %}
-<h1>Please Login</h1>
-{% endif %}
+    <div class="container">
+        <div>
+            <form action="{% url 'create_event' %}" method="post">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="mb-4">
+                        <label for={{ field.name }} class="form-label">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.help_text %}
+                            <small class="form-text text-muted">{{ field.help_text }}</small>
+                        {% endif %}
+                        {% for error in field.errors %}
+                            <div class="alert alert-danger">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                {% endfor %} 
+                <button class="btn btn-dark" type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
 {% endblock content %}

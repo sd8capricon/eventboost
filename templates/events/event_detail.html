@@ -14,7 +14,7 @@
                 <p>{{ event.description }}</p>
                 <h4>Sponsorship Tiers</h4>
                 <div class="row">
-                    {% if not user.is_authenticated %}
+                    {% if not user.account.is_sponsor %}
                         <div>Please Log in with sponsor account to sponsor events</div>
                     {% endif %}
                     {% for tier in event.sponsorship_tier.all  %}

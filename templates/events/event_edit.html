@@ -1,21 +1,40 @@
 {% extends "base.html" %}
 
 {% block content %}
-<form action="" method="post">
-    {% csrf_token %}
-    {{ form.as_div }}
-    <button type="submit">Edit</button>
-</form>
-{% for tier in event.sponsorship_tier.all  %}
-    <ul>
-       <li>
-            {{ tier.name }} - {{ tier.price }}
-            <p>{{ tier.benefits }}</p>
-            <a href="{% url 'edit_tier' pk=event.id tier_pk=tier.id %}">Edit</a>
-        </li>
-    </ul>
-{% endfor %}
-<div>
-    <a href="{% url 'add_tier' pk=event.id %}">Add Sponsorship Tier</a>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <form action="{% url 'edit_event' pk=event.id %}" method="post">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="mb-4">
+                        <label for={{ field.name }} class="form-label">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.help_text %}
+                            <small class="form-text text-muted">{{ field.help_text }}</small>
+                        {% endif %}
+                        {% for error in field.errors %}
+                            <div class="alert alert-danger">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                {% endfor %} 
+                <button class="btn btn-dark" type="submit">Edit</button>
+            </form>
+        </div>
+        <div class="col">
+            <div class="row mb-2">
+                {% for tier in event.sponsorship_tier.all  %}
+                    <div class="col">
+                        {{ tier.name }} - {{ tier.price }}
+                        <p>{{ tier.benefits }}</p>
+                        <a class="btn btn-dark" href="{% url 'edit_tier' pk=event.id tier_pk=tier.id %}">Edit</a>
+                    </div>
+                {% endfor %}
+            </div>
+            <div>
+                <a class="btn btn-dark" href="{% url 'add_tier' pk=event.id %}">Add Sponsorship Tier</a>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock content %}

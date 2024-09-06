@@ -63,6 +63,7 @@ def EditEvent(request, pk):
         form = EventForm(request.POST, instance=event)
         if form.is_valid():
             form.save()
+            return redirect("manage_events")
     else:
         form = EventForm(instance=event)
     return render(request, "events/event_edit.html", {"form": form, "event": event})

@@ -12,9 +12,14 @@ class EventForm(forms.ModelForm):
         model = Event
         exclude = ["organizer", "sponsors"]
         widgets = {
-            "end_date": DateInput,
-            "start_date": DateInput,
-            "sponsorship_deadline": DateInput,
+            "title": forms.TextInput(attrs={"class": "form-control"}),
+            "location": forms.TextInput(attrs={"class": "form-control"}),
+            "end_date": DateInput(attrs={"class": "form-control"}),
+            "start_date": DateInput(attrs={"class": "form-control"}),
+            "sponsorship_deadline": DateInput(attrs={"class": "form-control"}),
+            "description": forms.Textarea(attrs={"class": "form-control"}),
+            "category": forms.Select(attrs={"class": "form-select"}),
+            "status": forms.Select(attrs={"class": "form-select"}),
         }
 
     def save(self, commit=True, organizer_id=None):
@@ -31,6 +36,12 @@ class TierForm(forms.ModelForm):
     class Meta:
         model = SponsorshipTier
         exclude = ["event"]
+
+        widgets = {
+            "name": forms.TextInput(attrs={"class": "form-control"}),
+            "price": forms.NumberInput(attrs={"class": "form-control"}),
+            "benefits": forms.Textarea(attrs={"class": "form-control"}),
+        }
 
     def save(self, commit=True, event_id=None):
         tier = super().save(commit=False)
