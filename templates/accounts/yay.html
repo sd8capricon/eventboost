@@ -6,6 +6,8 @@
         <div>
             {{ user.account.description }}
         </div>
+        <a href="{% url 'logout' %}">Logout</a>
+    {% else %}
+        Hello, world. You're at the accounts index. <a href="{% url 'login' %}">Login</a>
     {% endif %}
-    <a href="{% url 'logout' %}">Logout</a>
 {% endblock content %}

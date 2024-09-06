@@ -7,11 +7,7 @@ from accounts.forms import RegistrationForm
 
 # Create your views here.
 def index(requet):
-    if requet.user.is_authenticated:
-        return render(requet, "accounts/yay.html")
-    return HttpResponse(
-        "Hello, world. You're at the accounts index. <a href='/accounts/login_user'>Login</a>"
-    )
+    return render(requet, "accounts/yay.html")
 
 
 def register_user(request):
