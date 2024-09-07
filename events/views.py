@@ -26,7 +26,12 @@ class EventsListOrganizer(LoginRequiredMixin, ListView):
     template_name = "events/events_table.html"
     context_object_name = "events"
 
-    def get_queryset(self):
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.account.is_sponsor:
+            return redirect("events")
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_queryset(self, *args, **kwargs):
         organizer = self.request.user.account
         events = super().get_queryset().filter(organizer=organizer)
         return events
@@ -42,6 +47,8 @@ class EventDetailView(DetailView):
 # Create Event
 @login_required
 def CreateEvent(request):
+    if not request.user.account.is_organizer:
+        return redirect("events")
     if request.method == "POST":
         form = EventForm(request.POST)
         if form.is_valid():
