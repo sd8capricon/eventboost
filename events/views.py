@@ -82,7 +82,7 @@ def AddSponsorshipTier(request, pk):
             return redirect("edit_event", pk=pk)
     else:
         form = TierForm()
-    return render(request, "events/tier_add.html", {"form": form})
+    return render(request, "events/tier_add.html", {"form": form, "event": event})
 
 
 # Edit Sponsorship Tier of an Event

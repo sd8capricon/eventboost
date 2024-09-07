@@ -2,6 +2,7 @@
 
 {% block content %}
 <div class="container">
+    <a href="{% url 'manage_events' %}">Go back</a>
     <div class="row">
         <div class="col">
             <form action="{% url 'edit_event' pk=event.id %}" method="post">
