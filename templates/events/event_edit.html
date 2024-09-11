@@ -29,6 +29,25 @@
                         {{ tier.name }} - {{ tier.price }}
                         <p>{{ tier.benefits }}</p>
                         <a class="btn btn-dark" href="{% url 'edit_tier' pk=event.id tier_pk=tier.id %}">Edit</a>
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete-modal-{{ tier.id }}">Delete Tier</button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="delete-modal-{{ tier.id }}" tabindex="-1" aria-labelledby="delete-modal-label" aria-hidden="true">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h1 class="modal-title fs-5" id="delete-modal-label">Modal title</h1>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    Once you delete your event tier, you will have to refund the event sponsorers.
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                  <a class="btn btn-danger" href="{% url 'delete_tier' pk=tier.event.id tier_pk=tier.id %}">Delete event tier</a>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
                     </div>
                 {% endfor %}
             </div>

@@ -4,7 +4,30 @@
     <div>
         <ul>
             {% for event in events %}
-            <li><a href="{% url 'edit_event' pk=event.id %}">{{ event.title }} - {{ event.status }}</a></li>
+                <li>
+                    <a href="{% url 'edit_event' pk=event.id %}">
+                        {{ event.title }} - {{ event.status }}
+                    </a>
+                    <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#delete-modal-{{ event.id }}">Delete Event</button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="delete-modal-{{ event.id }}" tabindex="-1" aria-labelledby="delete-modal-label" aria-hidden="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h1 class="modal-title fs-5" id="delete-modal-label">Modal title</h1>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Once you delete your event, you will have to refund the event sponsorers.
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                              <a class="btn btn-danger" href="{% url 'delete_event' pk=event.id %}">Delete your event</a>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </li>
             {% endfor %}
         </ul>
     </div>

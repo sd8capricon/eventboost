@@ -65,7 +65,7 @@ class Sponsorship(models.Model):
         Event, on_delete=models.CASCADE, limit_choices_to={"status": "open"}
     )
     tier = models.ForeignKey(SponsorshipTier, on_delete=models.CASCADE)
-    date_joined = models.DateField(auto_now_add=True)
+    date_sponsored = models.DateField(auto_now_add=True)
 
     class Meta:
         unique_together = (
@@ -75,4 +75,4 @@ class Sponsorship(models.Model):
         )  # Ensure unique sponsorship per event and tier
 
     def __str__(self):
-        return f"{self.sponsor.username} sponsors {self.event.title} at {self.tier.name} tier"
+        return f"{self.sponsor.user.username} sponsors {self.event.title} at {self.tier.name} tier"

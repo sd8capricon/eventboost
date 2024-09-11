@@ -24,8 +24,10 @@
                                 <h5>{{ tier.name }}</h5>
                                 <div>{{ tier.price }}</div>
                                 <p>{{ tier.benefits }}</p>
-                                {% if user.account.is_sponsor %}
-                                    <a href="#" class="btn btn-dark">Sponsor</a>
+                                {% if tier.sponsorship_set.all  %}
+                                    <button class="btn btn-dark" disabled>Sponsored</button>
+                                {% elif user.account.is_sponsor %}
+                                    <a href="{% url 'sponsor_event' pk=event.id tier_pk=tier.id %}" class="btn btn-dark">Sponsor</a>
                                 {% endif %}
                             </div>
                         {% endfor %}

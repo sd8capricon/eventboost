@@ -1,5 +1,6 @@
+from typing import Any
 from django import forms
-from events.models import Event, SponsorshipTier
+from events.models import Event, SponsorshipTier, Sponsorship
 from accounts.models import Account
 
 
@@ -51,3 +52,33 @@ class TierForm(forms.ModelForm):
         if commit:
             tier.save()
         return tier
+
+
+class SponsorshipForm(
+    forms.ModelForm,
+):
+
+    class Meta:
+        model = Sponsorship
+        exclude = ["sponsor"]
+
+    def __init__(self, *args, event_id, tier_pk, **kwargs):
+        super(SponsorshipForm, self).__init__(*args, **kwargs)
+        self.event = Event.objects.get(id=event_id)
+        self.initial["event"] = event_id
+        self.fields["event"].disabled = True
+        if event_id:
+            self.fields["tier"].queryset = SponsorshipTier.objects.filter(
+                event=self.event
+            )
+        self.initial["tier"] = tier_pk
+
+    def save(self, commit=True, spon_id=None):
+        sponsorship = super().save(commit=False)
+        if spon_id:
+            sponsor = Account.objects.get(id=spon_id)
+            sponsor.event = self.event
+            sponsorship.sponsor = sponsor
+        if commit:
+            sponsorship.save()
+        return sponsorship
