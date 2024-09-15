@@ -1,9 +1,33 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
 {% block content %}
-    {% for event in events  %}
-        <div>
-            <a href="{% url 'event' pk=event.id %}">{{ event.title }} - {{ event.status }}</a>
+  <!-- Start Hero Section -->
+  <div class="hero">
+    <div class="container">
+      <div class="row justify-content-between">
+        <div class="col-lg-5">
+          <div class="intro-excerpt">
+            <h1>Events</h1>
+          </div>
         </div>
-    {% endfor %}
+        <div class="col-lg-7"></div>
+      </div>
+    </div>
+  </div>
+  <!-- End Hero Section -->
+
+  <div class="untree_co-section product-section before-footer-section">
+    <div class="container">
+      <div class="row">
+        {% for event in events %}
+          <!-- Start Column -->
+          <div class="col-12 col-md-4 col-lg-3 mb-5">
+            {% url 'event' pk=event.id as event_url %}
+            {% include 'components/event.html' with event=event src='images/product-1.png' %}
+          </div>
+          <!-- End Column -->
+        {% endfor %}
+      </div>
+    </div>
+  </div>
 {% endblock %}

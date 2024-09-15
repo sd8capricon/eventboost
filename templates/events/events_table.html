@@ -1,36 +1,109 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
 {% block content %}
-    <div>
-        <ul>
-            {% for event in events %}
-                <li>
-                    <a href="{% url 'edit_event' pk=event.id %}">
-                        {{ event.title }} - {{ event.status }}
-                    </a>
-                    <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#delete-modal-{{ event.id }}">Delete Event</button>
-                    <!-- Modal -->
-                    <div class="modal fade" id="delete-modal-{{ event.id }}" tabindex="-1" aria-labelledby="delete-modal-label" aria-hidden="true">
-                        <div class="modal-dialog">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h1 class="modal-title fs-5" id="delete-modal-label">Modal title</h1>
-                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                Once you delete your event, you will have to refund the event sponsorers.
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                              <a class="btn btn-danger" href="{% url 'delete_event' pk=event.id %}">Delete your event</a>
-                            </div>
-                          </div>
-                        </div>
-                    </div>
-                </li>
-            {% endfor %}
-        </ul>
+  <!-- Start Hero Section -->
+  <div class="hero">
+    <div class="container">
+      <div class="row justify-content-between">
+        <div class="col-lg-5">
+          <div class="intro-excerpt">
+            <h1>Manage your Events</h1>
+          </div>
+        </div>
+        <div class="col-lg-7"></div>
+      </div>
     </div>
+  </div>
+  <!-- End Hero Section -->
 
-    <a href='{% url "create_event" %}'>Add a Event</a>
-{% endblock content %}
+  <div class="container-xl my-5">
+    <a class="btn btn-secondary" href="{% url 'create_event' %}">Add an Event</a>
+    <div class="table-responsive">
+      <div class="table-wrapper">
+        <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Date Created</th>
+              <th>Category</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for event in events %}
+              <tr>
+                <td>{{ event.id }}</td>
+                <td>
+                  <a href="{% url 'edit_event' pk=event.id %}">{{ event.title }}</a>
+                </td>
+                <td>{{ event.start_date }}</td>
+                <td>{{ event.category }}</td>
+                <td>
+                  {% if event.status == 'open' %}
+                    <span class="status text-success">&bull;</span>
+                  {% elif event.status == 'closed' %}
+                    <span class="status text-primary">&bull;</span>
+                  {% else %}
+                    {% comment %}if cancelled{% endcomment %}
+                    <span class="status text-danger">&bull;</span>
+                  {% endif %}
+                  {{ event.status }}
+                </td>
+                <td class="d-flex">
+                  <a href="{% url 'edit_event' pk=event.id %}"><i class="fa-solid fa-gear"></i></a>
+                  <button type="button" style="border: none; background:none;" data-bs-toggle="modal" data-bs-target="#delete-modal-{{ event.id }}"><i class="fa-solid fa-circle-xmark text-danger"></i></button>
+                  <!-- Modal -->
+                  <div class="modal fade" id="delete-modal-{{ event.id }}" tabindex="-1" aria-labelledby="delete-modal-label" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h1 class="modal-title fs-5" id="delete-modal-label">Modal title</h1>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">Once you delete your event, you will have to refund the event sponsorers.</div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          <a class="btn btn-danger text-white" href="{% url 'delete_event' pk=event.id %}">Delete your event</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <div class="clearfix">
+          <div class="hint-text">
+            Showing <b>2</b> out of <b>10</b> entries
+          </div>
+          <ul class="pagination">
+            <li class="page-item disabled">
+              <a href="#" class="page-link">Back</a>
+            </li>
+            <li class="page-item active">
+              <a href="#" class="page-link">1</a>
+            </li>
+            <li class="page-item">
+              <a href="#" class="page-link">2</a>
+            </li>
+            <li class="page-item">
+              <a href="#" class="page-link">3</a>
+            </li>
+            <li class="page-item">
+              <a href="#" class="page-link">4</a>
+            </li>
+            <li class="page-item">
+              <a href="#" class="page-link">5</a>
+            </li>
+            <li class="page-item">
+              <a href="#" class="page-link">Next</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

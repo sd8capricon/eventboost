@@ -1,60 +1,66 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
 {% block content %}
-<div class="container">
+  <div class="container mb-5">
     <a href="{% url 'manage_events' %}">Go back</a>
     <div class="row">
-        <div class="col">
-            <form action="{% url 'edit_event' pk=event.id %}" method="post">
-                {% csrf_token %}
-                {% for field in form %}
-                    <div class="mb-4">
-                        <label for={{ field.name }} class="form-label">{{ field.label }}</label>
-                        {{ field }}
-                        {% if field.help_text %}
-                            <small class="form-text text-muted">{{ field.help_text }}</small>
-                        {% endif %}
-                        {% for error in field.errors %}
-                            <div class="alert alert-danger">{{ error }}</div>
-                        {% endfor %}
-                    </div>
-                {% endfor %} 
-                <button class="btn btn-dark" type="submit">Edit</button>
-            </form>
+      <div class="col">
+        <div class="row mb-4">
+          <h2 class="section-title">Change Event Assets</h2>
+          <img class="img-fluid mb-2" src="https://picsum.photos/1280/720" alt="event image" />
+          <h4>Change Event Brochure - File Here</h4>
         </div>
-        <div class="col">
-            <div class="row mb-2">
-                {% for tier in event.sponsorship_tier.all  %}
-                    <div class="col">
-                        {{ tier.name }} - {{ tier.price }}
-                        <p>{{ tier.benefits }}</p>
-                        <a class="btn btn-dark" href="{% url 'edit_tier' pk=event.id tier_pk=tier.id %}">Edit</a>
-                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete-modal-{{ tier.id }}">Delete Tier</button>
-                        <!-- Modal -->
-                        <div class="modal fade" id="delete-modal-{{ tier.id }}" tabindex="-1" aria-labelledby="delete-modal-label" aria-hidden="true">
-                            <div class="modal-dialog">
-                              <div class="modal-content">
-                                <div class="modal-header">
-                                  <h1 class="modal-title fs-5" id="delete-modal-label">Modal title</h1>
-                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    Once you delete your event tier, you will have to refund the event sponsorers.
-                                </div>
-                                <div class="modal-footer">
-                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                  <a class="btn btn-danger" href="{% url 'delete_tier' pk=tier.event.id tier_pk=tier.id %}">Delete event tier</a>
-                                </div>
-                              </div>
-                            </div>
-                        </div>
+        <div class="row mb-2">
+          <h2 class="section-title mb-4">Event's Sponsorship Tiers</h2>
+          {% for tier in event.sponsorship_tier.all %}
+            <div class="col-lg-6">
+              <h3 class="section-title">{{ tier.name }} Tier</h3>
+              <p class="fw-bold">Asking Price - {{ tier.price }}</p>
+              <p>{{ tier.benefits|truncatechars:100 }}</p>
+              <a class="btn btn-dark" href="{% url 'edit_tier' pk=event.id tier_pk=tier.id %}">Edit</a>
+              <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete-modal-{{ tier.id }}">Delete Tier</button>
+              <!-- Modal -->
+              <div class="modal fade" id="delete-modal-{{ tier.id }}" tabindex="-1" aria-labelledby="delete-modal-label" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="delete-modal-label">Modal title</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                {% endfor %}
+                    <div class="modal-body">Once you delete your event tier, you will have to refund the event sponsorers.</div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <a class="btn btn-danger" href="{% url 'delete_tier' pk=tier.event.id tier_pk=tier.id %}">Delete event tier</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div>
-                <a class="btn btn-dark" href="{% url 'add_tier' pk=event.id %}">Add Sponsorship Tier</a>
-            </div>
+          {% endfor %}
         </div>
+        <div>
+          <a class="btn btn-dark" href="{% url 'add_tier' pk=event.id %}">Add Sponsorship Tier</a>
+        </div>
+      </div>
+      <div class="col">
+        <h2 class="section-title mb-4">Edit Event Details</h2>
+        <form action="{% url 'edit_event' pk=event.id %}" method="post">
+          {% csrf_token %}
+          {% for field in form %}
+            <div class="mb-4">
+              <label for="{{ field.name }}" class="form-label">{{ field.label }}</label>
+              {{ field }}
+              {% if field.help_text %}
+                <small class="form-text text-muted">{{ field.help_text }}</small>
+              {% endif %}
+              {% for error in field.errors %}
+                <div class="alert alert-danger">{{ error }}</div>
+              {% endfor %}
+            </div>
+          {% endfor %}
+          <button class="btn btn-dark" type="submit">Edit</button>
+        </form>
+      </div>
     </div>
-</div>
-{% endblock content %}
+  </div>
+{% endblock %}
