@@ -3,7 +3,7 @@
   <img src="{% static src %}" class="img-fluid product-thumbnail" />
   <h3 class="product-title">{{ event.title }}</h3>
   <h6>{{ event.category }}</h6>
-  <strong class="product-price">{{ event.organizer }}</strong>
+  <strong class="product-price">By - {{ event.organizer }}</strong>
 
   <span class="icon-cross"><img src="{% static 'images/chevron-right.svg' %}" class="img-fluid" /></span>
 </a>
