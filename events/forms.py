@@ -18,6 +18,9 @@ class EventForm(forms.ModelForm):
             "end_date": DateInput(attrs={"class": "form-control"}),
             "start_date": DateInput(attrs={"class": "form-control"}),
             "sponsorship_deadline": DateInput(attrs={"class": "form-control"}),
+            "expected_attendee_count": forms.NumberInput(
+                attrs={"class": "form-control"}
+            ),
             "description": forms.Textarea(attrs={"class": "form-control"}),
             "category": forms.Select(attrs={"class": "form-select"}),
             "status": forms.Select(attrs={"class": "form-select"}),

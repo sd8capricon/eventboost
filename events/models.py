@@ -28,12 +28,12 @@ class Event(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
     sponsorship_deadline = models.DateField()
-    description = models.TextField()
-    category = models.CharField(
-        max_length=100, choices=CATEGORY_CHOICES
-    )  # Sports, Hackathon
-    # Open, Closed, Cancelled
+    # Category Sports, Hackathon
+    category = models.CharField(max_length=100, choices=CATEGORY_CHOICES)
+    # Status Open, Closed, Cancelled
     status = models.CharField(max_length=100, choices=STATUS_CHOICES)
+    expected_attendee_count = models.IntegerField()
+    description = models.TextField()
     organizer = models.ForeignKey(
         Account,
         on_delete=models.CASCADE,

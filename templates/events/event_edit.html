@@ -1,8 +1,23 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <div class="container mb-5">
-    <a href="{% url 'manage_events' %}">Go back</a>
+  <!-- Start Hero Section -->
+  <div class="hero">
+    <div class="container">
+      <div class="row justify-content-between">
+        <div class="col-lg-5">
+          <div class="intro-excerpt">
+            <a class="text-white" href="{% url 'manage_events' %}">Go back</a>
+            <h1>Edit an Event</h1>
+          </div>
+        </div>
+        <div class="col-lg-7"></div>
+      </div>
+    </div>
+  </div>
+  <!-- End Hero Section -->
+
+  <div class="container my-5">
     <div class="row">
       <div class="col">
         <div class="row mb-4">

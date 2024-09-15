@@ -1,3 +1,4 @@
+from typing import Any
 from django.shortcuts import render, redirect
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
@@ -5,6 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from events.models import Event, SponsorshipTier, Sponsorship
 from events.forms import EventForm, TierForm, SponsorshipForm
+from events.utils import shorten_number
 
 # Create your views here.
 
@@ -42,6 +44,16 @@ class EventDetailView(DetailView):
     model = Event
     template_name = "events/event_detail.html"
     context_object_name = "event"
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        print(context)
+
+        context["event"].expected_attendee_count = shorten_number(
+            self.get_object().expected_attendee_count
+        )
+
+        return context
 
 
 # List all Sponsored Events

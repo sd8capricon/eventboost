@@ -1,42 +1,43 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
 {% block content %}
-    <div class="container mt-5">
-        <a href="{% url 'events' %}">Go back</a>
-        <div class="row">
-            <div class="col-lg-5 order-2 order-lg-1">
-                <img class="img-fluid w-100" src="https://via.placeholder.com/400x300" alt="Event Image">
-                <h4>Download Event Brochure</h4>
-                <div>Download - <a href="#">Link</a></div>
-            </div>
-            <div class="col-lg-7 order-1 order-lg-2">
-                <h3>{{ event.title }}</h3>
-                <div>Category - {{ event.category }}</div>
-                <p>{{ event.description }}</p>
-                <h4>Sponsorship Tiers</h4>
-                {% if event.sponsorship_tier.all %}
-                    <div class="row">
-                        {% if not user.account.is_sponsor %}
-                            <div>Please Log in with sponsor account to sponsor events</div>
-                        {% endif %}
-                        {% for tier in event.sponsorship_tier.all  %}
-                            <div class="col">
-                                <h5>{{ tier.name }}</h5>
-                                <div>{{ tier.price }}</div>
-                                <p>{{ tier.benefits }}</p>
-                                {% if tier.sponsorship_set.all  %}
-                                    <button class="btn btn-dark" disabled>Sponsored</button>
-                                {% elif user.account.is_sponsor %}
-                                    <a href="{% url 'sponsor_event' pk=event.id tier_pk=tier.id %}" class="btn btn-dark">Sponsor</a>
-                                {% endif %}
-                            </div>
-                        {% endfor %}
-                    </div>
-                {% else %}
-                    <div>Wait for the organizer to publish the sponsorship tiers</div>
-                {% endif %}
-
-            </div>
+  <div class="container my-5">
+    <a href="{% url 'events' %}">Go back</a>
+    <div class="row mb-5">
+      <div class="col-lg-5 order-2 order-lg-1">
+        <img class="img-fluid w-100" src="https://via.placeholder.com/400x300" alt="Event Image" />
+      </div>
+      <div class="col-lg-7 order-1 order-lg-2">
+        <h3 class="section-title">{{ event.title }}</h3>
+        <div>Category - {{ event.category }}</div>
+        <div>Expected Attendees - {{ event.expected_attendee_count }}</div>
+        <p>{{ event.description }}</p>
+        <h4>Download Event Brochure</h4>
+        <div>
+          Download - <a href="#">Link</a>
         </div>
+      </div>
     </div>
-{% endblock content %}
+    <div class="row">
+      {% if event.sponsorship_tier.all %}
+        <h4 class="section-title mb-4">Sponsorship Tiers</h4>
+        {% for tier in event.sponsorship_tier.all %}
+          <div class="col-6">
+            <h5 class="section-title">{{ tier.name }}</h5>
+            <div>Sponsorship Price -{{ tier.price }}</div>
+            <p>{{ tier.benefits }}</p>
+            {% if tier.sponsorship_set.all %}
+              <button class="btn btn-dark" disabled>Sponsored</button>
+            {% elif user.account.is_sponsor %}
+              <a href="{% url 'sponsor_event' pk=event.id tier_pk=tier.id %}" class="btn btn-dark">Sponsor</a>
+            {% else %}
+              <div>Please Log in with sponsor account to sponsor events</div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      {% else %}
+        <div>Wait for the organizer to publish the sponsorship tiers</div>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

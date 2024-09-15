@@ -1,27 +1,40 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
 {% block content %}
-<div class="container">
-    <a href="{% url 'edit_event' pk=tier.event.id %}">Go back</a>
-    <h3>Edit {{ tier.name }} Tier</h3>
-
-    <div class="row">
-        <form action="" method="post">
-            {% csrf_token %}
-            {% for field in form %}
-                <div class="mb-4">
-                    <label for={{ field.name }} class="form-label">{{ field.label }}</label>
-                    {{ field }}
-                    {% if field.help_text %}
-                        <small class="form-text text-muted">{{ field.help_text }}</small>
-                    {% endif %}
-                    {% for error in field.errors %}
-                        <div class="alert alert-danger">{{ error }}</div>
-                    {% endfor %}
-                </div>
-            {% endfor %} 
-            <button class="btn btn-dark" type="submit">Edit</button>
-        </form>
+  <!-- Start Hero Section -->
+  <div class="hero">
+    <div class="container">
+      <div class="row justify-content-between">
+        <div class="col-lg-5">
+          <div class="intro-excerpt">
+            <a class="text-white" href="{% url 'edit_event' pk=tier.event.id %}">Go back</a>
+            <h1>Edit {{ tier.name }} Tier</h1>
+          </div>
+        </div>
+        <div class="col-lg-7"></div>
+      </div>
     </div>
-</div>
-{% endblock content %}
+  </div>
+  <!-- End Hero Section -->
+
+  <div class="container my-5">
+    <div class="row">
+      <form action="" method="post">
+        {% csrf_token %}
+        {% for field in form %}
+          <div class="mb-4">
+            <label for="{{ field.name }}" class="form-label">{{ field.label }}</label>
+            {{ field }}
+            {% if field.help_text %}
+              <small class="form-text text-muted">{{ field.help_text }}</small>
+            {% endif %}
+            {% for error in field.errors %}
+              <div class="alert alert-danger">{{ error }}</div>
+            {% endfor %}
+          </div>
+        {% endfor %}
+        <button class="btn btn-dark" type="submit">Edit</button>
+      </form>
+    </div>
+  </div>
+{% endblock %}
