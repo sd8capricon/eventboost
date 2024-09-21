@@ -40,6 +40,10 @@ class Event(models.Model):
         related_name="event_organizer",
         limit_choices_to={"is_organizer": True},
     )
+    display_picture = models.ImageField(
+        null=True, blank=True, upload_to="events/display_picture"
+    )
+    brochure = models.FileField(null=True, blank=True, upload_to="events/brochure")
 
     def __str__(self):
         return self.title

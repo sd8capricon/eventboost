@@ -5,7 +5,7 @@
     <a href="{% url 'events' %}">Go back</a>
     <div class="row mb-5">
       <div class="col-lg-5 order-2 order-lg-1">
-        <img class="img-fluid w-100" src="https://via.placeholder.com/400x300" alt="Event Image" />
+        <img class="img-fluid w-100" src="{{ event.display_picture.url }}" alt="Event Image" />
       </div>
       <div class="col-lg-7 order-1 order-lg-2">
         <h3 class="section-title">{{ event.title }}</h3>
@@ -14,7 +14,7 @@
         <p>{{ event.description }}</p>
         <h4>Download Event Brochure</h4>
         <div>
-          Download - <a href="#">Link</a>
+          Download - <a href="{{ event.brochure.url }}" target="_blank">Link</a>
         </div>
       </div>
     </div>

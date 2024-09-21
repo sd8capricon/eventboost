@@ -5,7 +5,7 @@ from django.views.generic.detail import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from events.models import Event, SponsorshipTier, Sponsorship
-from events.forms import EventForm, TierForm, SponsorshipForm
+from events.forms import EventForm, EventAssetForm, TierForm, SponsorshipForm
 from events.utils import shorten_number
 
 # Create your views here.
@@ -79,12 +79,12 @@ def CreateEvent(request):
     if not request.user.account.is_organizer:
         return redirect("events")
     if request.method == "POST":
-        form = EventForm(request.POST)
+        form = EventForm(request.POST, request.FILES)
         if form.is_valid():
             event = form.save(organizer_id=request.user.account.id)
             return redirect("add_tier", pk=event.id)
     else:
-        form = EventForm()
+        form = EventForm(assets=True)
     return render(request, "events/event_create.html", {"form": form})
 
 
@@ -92,16 +92,33 @@ def CreateEvent(request):
 @login_required
 def EditEvent(request, pk):
     event = Event.objects.prefetch_related("sponsorship_tier").get(id=pk)
+    print(event.brochure.url)
     if event.organizer != request.user.account:
         return render(request, "access_denied.html")
     if request.method == "POST":
-        form = EventForm(request.POST, instance=event)
-        if form.is_valid():
-            form.save()
-            return redirect("manage_events")
+        form = EventForm(instance=Event)
+        assetForm = EventAssetForm(instance=event)
+
+        if "asset-form" in request.POST:
+            assetForm = EventAssetForm(request.POST, request.FILES, instance=event)
+            if assetForm.is_valid():
+                assetForm.save()
+                return redirect("edit_event", pk=pk)
+
+        if "event-form" in request.POST:
+            form = EventForm(request.POST, instance=event)
+            if form.is_valid():
+                form.save()
+                return redirect("manage_events")
+
     else:
+        assetForm = EventAssetForm(instance=event)
         form = EventForm(instance=event)
-    return render(request, "events/event_edit.html", {"form": form, "event": event})
+    return render(
+        request,
+        "events/event_edit.html",
+        {"form": form, "assetForm": assetForm, "event": event},
+    )
 
 
 # Delete an Event
