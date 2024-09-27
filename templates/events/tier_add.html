@@ -1,27 +1,27 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
 {% block content %}
-<div class="container">
+  <div class="container my-5">
     <a href="{% url 'edit_event' pk=event.id %}">Go back</a>
     <h3>Add Sponsorship Tiers</h3>
 
     <div class="row">
-        <form action="" method="post">
-            {% csrf_token %}
-            {% for field in form %}
-                <div class="mb-4">
-                    <label for={{ field.name }} class="form-label">{{ field.label }}</label>
-                    {{ field }}
-                    {% if field.help_text %}
-                        <small class="form-text text-muted">{{ field.help_text }}</small>
-                    {% endif %}
-                    {% for error in field.errors %}
-                        <div class="alert alert-danger">{{ error }}</div>
-                    {% endfor %}
-                </div>
-            {% endfor %} 
-            <button class="btn btn-dark" type="submit">Submit</button>
-        </form>
+      <form action="" method="post">
+        {% csrf_token %}
+        {% for field in form %}
+          <div class="mb-4">
+            <label for="{{ field.name }}" class="form-label">{{ field.label }}</label>
+            {{ field }}
+            {% if field.help_text %}
+              <small class="form-text text-muted">{{ field.help_text }}</small>
+            {% endif %}
+            {% for error in field.errors %}
+              <div class="alert alert-danger">{{ error }}</div>
+            {% endfor %}
+          </div>
+        {% endfor %}
+        <button class="btn btn-dark" type="submit">Submit</button>
+      </form>
     </div>
-</div>
-{% endblock content %}
+  </div>
+{% endblock %}

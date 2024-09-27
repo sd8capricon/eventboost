@@ -14,7 +14,7 @@ class DateInput(forms.DateInput):
 class EventForm(forms.ModelForm):
     class Meta:
         model = Event
-        exclude = ["organizer", "sponsors", "display_picture", "brochure"]
+        exclude = ("organizer", "sponsors", "display_picture", "brochure")
         widgets = {
             "title": forms.TextInput(attrs={"class": "form-control"}),
             "location": forms.TextInput(attrs={"class": "form-control"}),

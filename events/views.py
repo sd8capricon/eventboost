@@ -4,6 +4,8 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
+
+# Event
 from events.models import Event, SponsorshipTier, Sponsorship
 from events.forms import EventForm, EventAssetForm, TierForm, SponsorshipForm
 from events.utils import shorten_number
@@ -47,7 +49,6 @@ class EventDetailView(DetailView):
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        print(context)
 
         context["event"].expected_attendee_count = shorten_number(
             self.get_object().expected_attendee_count
@@ -79,10 +80,13 @@ def CreateEvent(request):
     if not request.user.account.is_organizer:
         return redirect("events")
     if request.method == "POST":
-        form = EventForm(request.POST, request.FILES)
+        form = EventForm(data=request.POST, files=request.FILES)
         if form.is_valid():
             event = form.save(organizer_id=request.user.account.id)
             return redirect("add_tier", pk=event.id)
+        else:
+            print("Not Valid")
+            print(form.errors.as_data())
     else:
         form = EventForm(assets=True)
     return render(request, "events/event_create.html", {"form": form})
@@ -92,7 +96,6 @@ def CreateEvent(request):
 @login_required
 def EditEvent(request, pk):
     event = Event.objects.prefetch_related("sponsorship_tier").get(id=pk)
-    print(event.brochure.url)
     if event.organizer != request.user.account:
         return render(request, "access_denied.html")
     if request.method == "POST":
@@ -100,16 +103,22 @@ def EditEvent(request, pk):
         assetForm = EventAssetForm(instance=event)
 
         if "asset-form" in request.POST:
-            assetForm = EventAssetForm(request.POST, request.FILES, instance=event)
+            assetForm = EventAssetForm(
+                data=request.POST, files=request.FILES, instance=event
+            )
             if assetForm.is_valid():
                 assetForm.save()
                 return redirect("edit_event", pk=pk)
 
         if "event-form" in request.POST:
-            form = EventForm(request.POST, instance=event)
+            form = EventForm(data=request.POST, instance=event)
+            print(form)
             if form.is_valid():
                 form.save()
                 return redirect("manage_events")
+            else:
+                print("Not Valid")
+                print(form.errors.as_data())
 
     else:
         assetForm = EventAssetForm(instance=event)
