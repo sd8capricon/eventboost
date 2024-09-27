@@ -29,6 +29,7 @@ class EventsListOrganizer(LoginRequiredMixin, ListView):
     model = Event
     template_name = "events/events_table.html"
     context_object_name = "events"
+    paginate_by = 1
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.account.is_sponsor:
@@ -62,6 +63,7 @@ class EventsListSponsor(LoginRequiredMixin, ListView):
     model = Sponsorship
     template_name = "events/events_sponsorships.html"
     context_object_name = "sponsorships"
+    paginate_by = 2
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.account.is_organizer:

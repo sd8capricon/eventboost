@@ -77,29 +77,25 @@
         </table>
         <div class="clearfix">
           <div class="hint-text">
-            Showing <b>2</b> out of <b>10</b> entries
+            Showing <b>{{ page_obj.number }}</b> out of <b>{{ page_obj.paginator.num_pages }}</b> entries
           </div>
           <ul class="pagination">
-            <li class="page-item disabled">
-              <a href="#" class="page-link">Back</a>
+            <li class="page-item {% if not page_obj.has_previous %}disabled{% endif %}">
+              <a href="{% if page_obj.has_previous %}
+                  
+                   ?page={{ page_obj.previous_page_number }}
+                {% endif %}"
+                class="page-link">
+                Back
+              </a>
             </li>
-            <li class="page-item active">
-              <a href="#" class="page-link">1</a>
-            </li>
-            <li class="page-item">
-              <a href="#" class="page-link">2</a>
-            </li>
-            <li class="page-item">
-              <a href="#" class="page-link">3</a>
-            </li>
-            <li class="page-item">
-              <a href="#" class="page-link">4</a>
-            </li>
-            <li class="page-item">
-              <a href="#" class="page-link">5</a>
-            </li>
-            <li class="page-item">
-              <a href="#" class="page-link">Next</a>
+            <li class="page-item {% if not page_obj.has_next %}disabled{% endif %}">
+              <a href="{% if page_obj.has_next %}
+                  ?page={{ page_obj.next_page_number }}
+                {% endif %}"
+                class="page-link">
+                Next
+              </a>
             </li>
           </ul>
         </div>

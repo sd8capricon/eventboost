@@ -5,17 +5,23 @@
     <a href="{% url 'events' %}">Go back</a>
     <div class="row mb-5">
       <div class="col-lg-5 order-2 order-lg-1">
-        <img class="img-fluid w-100" src="{{ event.display_picture.url }}" alt="Event Image" />
+        {% if event.display_picture %}
+          <img class="img-fluid w-100" src="{{ event.display_picture.url }}" alt="Event Image" />
+        {% else %}
+          <img class="img-fluid w-100" src="https://picsum.photos/500/350" alt="event image" />
+        {% endif %}
       </div>
       <div class="col-lg-7 order-1 order-lg-2">
         <h3 class="section-title">{{ event.title }}</h3>
         <div>Category - {{ event.category }}</div>
         <div>Expected Attendees - {{ event.expected_attendee_count }}</div>
         <p>{{ event.description }}</p>
-        <h4>Download Event Brochure</h4>
-        <div>
-          Download - <a href="{{ event.brochure.url }}" target="_blank">Link</a>
-        </div>
+        {% if event.brochure %}
+          <h4>Download Event Brochure</h4>
+          <div>
+            Download - <a href="{{ event.brochure.url }}" target="_blank">Link</a>
+          </div>
+        {% endif %}
       </div>
     </div>
     <div class="row">
