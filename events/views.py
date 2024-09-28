@@ -18,9 +18,15 @@ class EventsList(ListView):
     model = Event
     template_name = "events/events_all.html"
     context_object_name = "events"
+    paginate_by = 1
 
     def get_queryset(self):
-        events = super().get_queryset().filter(status="open")
+        events = (
+            super()
+            .get_queryset()
+            .filter(status="open")
+            .order_by("-sponsorship_deadline")
+        )
         return events
 
 

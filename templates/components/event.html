@@ -3,7 +3,7 @@
   {% if event.display_picture %}
     <img src="{{ event.display_picture.url }}" class="img-fluid product-thumbnail" />
   {% else %}
-    <img src="{% static src %}" class="img-fluid product-thumbnail" />
+    <img src="{{ src }}" class="img-fluid product-thumbnail" />
   {% endif %}
   <h3 class="product-title">{{ event.title }}</h3>
   <h6>{{ event.category }}</h6>

@@ -23,10 +23,24 @@
           <!-- Start Column -->
           <div class="col-12 col-md-4 col-lg-3 mb-5">
             {% url 'event' pk=event.id as event_url %}
-            {% include 'components/event.html' with event=event src='images/product-1.png' %}
+            {% include 'components/event.html' with event=event src='https://picsum.photos/400/300' %}
           </div>
           <!-- End Column -->
         {% endfor %}
+
+        <div class="d-flex justify-content-center my-4">
+          {% if page_obj.has_previous %}
+            <a class="btn btn-outline-primary me-2" href="?page=1">&laquo; First</a>
+            <a class="btn btn-outline-primary me-2" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+          {% endif %}
+
+          <span class="mx-3 align-self-center">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+          {% if page_obj.has_next %}
+            <a class="btn btn-outline-primary ms-2" href="?page={{ page_obj.next_page_number }}">Next</a>
+            <a class="btn btn-outline-primary ms-2" href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+          {% endif %}
+        </div>
       </div>
     </div>
   </div>
