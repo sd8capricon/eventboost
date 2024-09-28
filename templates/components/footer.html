@@ -28,7 +28,31 @@
         </ul>
       </div>
 
-      <div class="col-lg-8">
+      <div class="col-lg-4"></div>
+
+      <div class="col-lg-4">
+        <div class="row links-wrap">
+          <ul class="list-unstyled">
+            <li>
+              <a href="#">About us</a>
+            </li>
+            <li>
+              <a href="#">Events</a>
+            </li>
+            <li>
+              {% if user.is_authenticated %}
+                {% if user.account.is_organizer %}
+                  <a href="{% url 'manage_events' %}">Manage your Events</a>
+                {% else %}
+                  <a href="{% url 'manage_sponsorships' %}">Manage your Sponsorships</a>
+                {% endif %}
+              {% endif %}
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      {% comment %} <div class="col-lg-8">
         <div class="row links-wrap">
           <div class="col-6 col-sm-6 col-md-3">
             <ul class="list-unstyled">
@@ -92,7 +116,7 @@
             </ul>
           </div>
         </div>
-      </div>
+      </div> {% endcomment %}
     </div>
 
     <div class="border-top copyright">
@@ -101,7 +125,7 @@
           <p class="mb-2 text-center text-lg-start">
             Copyright &copy;<script>
                               document.write(new Date().getFullYear())
-                            </script>. All Rights Reserved. &mdash; Designed with love by <a href="https://untree.co">Untree.co</a> Distributed By <a hreff="https://themewagon.com">ThemeWagon</a> <!-- License information: https://untree.co/license/ -->
+                            </script>. All Rights Reserved.
           </p>
         </div>
 
