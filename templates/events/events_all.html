@@ -18,6 +18,34 @@
 
   <div class="untree_co-section product-section before-footer-section">
     <div class="container">
+      <form class="mb-5" method="get" action="{% url 'events' %}">
+        <div class="d-flex mb-3">
+          <div class="form-group me-5">
+            <label for="form-label">Filter By: Category</label>
+            <select class="form-control" name="category" id="filter">
+              <option value="">--------</option>
+              <option value="conference">conference</option>
+              <option value="workshop">workshop</option>
+              <option value="webinar">webinar</option>
+              <option value="networking">networking</option>
+              <option value="hackathon">hackathon</option>
+              <option value="sports">sports</option>
+              <option value="music">music</option>
+              <option value="art">art</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="form-label">Order By</label>
+            <select class="form-control" name="sort_by" id="sort_by">
+              <option value="">--------</option>
+              <option value="start_date">Start Date</option>
+              <option value="end_date">End Date</option>
+              <option value="sponsorship_deadline">Sponsorship Deadline</option>
+            </select>
+          </div>
+        </div>
+        <input class="btn btn-primary" type="submit" name="submit" value="submit" />
+      </form>
       <div class="row">
         {% for event in events %}
           <!-- Start Column -->
